@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 extern int status;
 
@@ -38,9 +39,14 @@ typedef struct instruction_s
 } instruction_t;
 
 /* Function Prototypes */
-void push(stack_t **stack, unsigned int line_number, char *arg);
+void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 void execute_instruction(char *opcode, stack_t **stack, unsigned int line_number, char *arg);
 void free_stack(stack_t *stack);
+void usage_error(void);
+void file_error(char *filename);
+void malloc_error(void);
+void unknown_instruction_error(unsigned int line_number, char *opcode);
+void push_error(unsigned int line_number);
 
 #endif /* MONTY_H */
