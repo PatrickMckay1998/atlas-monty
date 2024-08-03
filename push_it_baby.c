@@ -48,7 +48,14 @@ void execute_instruction(char *opcode, stack_t **stack, unsigned int line_number
     {
         if (strcmp(opcode, instructions[i].opcode) == 0)
         {
-            instructions[i].f(stack, line_number, arg);
+            if (strcmp(opcode, "push") == 0)
+            {
+                push(stack, line_number, arg);
+            }
+            else
+            {
+                instructions[i].f(stack, line_number);
+            }
             return;
         }
     }
