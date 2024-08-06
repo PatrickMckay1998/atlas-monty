@@ -34,17 +34,22 @@ void push_error(unsigned int line_number)
 
 int main(int argc, char **argv)
 {
-    if (argc != 2)
+    if (argc != 2) 
+    /* Checks if exactly one argument is provided */
     {
         usage_error();
     }
 
     FILE *file = fopen(argv[1], "r");
+    /* Attemp to open file */
     if (!file)
     {
         file_error(argv[1]);
     }
 
+    /*initialize variables: a pointer to the stack and a buffer for reading lines 
+    and a line number counter */
+    
     stack_t *stack = NULL;
     char *line = NULL;
     size_t len = 0;
