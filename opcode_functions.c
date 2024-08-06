@@ -1,13 +1,9 @@
 #include "monty.h"
 
-void push(stack_t **stack, unsigned int line_number, char *arg)
-{
-    if (!arg || !isdigit(arg[0]))
-    {
-        push_error(line_number);
-    }
+int status;
 
-    int n = atoi(arg);
+void push(stack_t **stack, unsigned int line_number)
+{
     stack_t *new_node = malloc(sizeof(stack_t));
     if (!new_node)
     {
@@ -40,14 +36,19 @@ void execute_instruction(char *opcode, stack_t **stack, unsigned int line_number
 {
     instruction_t instructions[] = 
     {
+        {"push", push},
         {"pall", pall},
         {NULL, NULL}
     };
 
     if (strcmp(opcode, "push") == 0)
     {
-        push(stack, line_number, arg);
-        return;
+        if (!arg || !isdigit(arg[0]))
+        {
+            push_error(line_number);
+        }
+        status = atoi(arg); 
+        /* store the integer value in the extern variable */
     }
 
     for (int i = 0; instructions[i].opcode; i++)
