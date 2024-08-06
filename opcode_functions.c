@@ -10,7 +10,7 @@ void push(stack_t **stack, unsigned int line_number)
         malloc_error();
     }
 
-    new_node->n = n;
+    new_node->n = status;
     new_node->prev = NULL;
     new_node->next = *stack;
     if (*stack)
