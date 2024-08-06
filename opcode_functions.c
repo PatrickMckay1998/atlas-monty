@@ -38,26 +38,25 @@ void pall(stack_t **stack, unsigned int line_number)
 
 void execute_instruction(char *opcode, stack_t **stack, unsigned int line_number, char *arg)
 {
-    instruction_t instructions[] = {
-        {"push", push},
+    instruction_t instructions[] = 
+    {
         {"pall", pall},
         {NULL, NULL}
     };
 
+    if (strcmp(opcode, "push") == 0)
+    {
+        push(stack, line_number, arg);
+        return;
+    }
+
     for (int i = 0; instructions[i].opcode; i++)
     {
-        if (strcmp(opcode, instructions[i].opcode) == 0)
-        {
-            if (strcmp(opcode, "push") == 0)
-            {
-                push(stack, line_number, arg);
-            }
-            else
+            if (strcmp(opcode, instructions[i].opcode) == 0)
             {
                 instructions[i].f(stack, line_number);
+                return;
             }
-            return;
-        }
     }
 
     unknown_instruction_error(line_number, opcode);
