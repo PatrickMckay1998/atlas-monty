@@ -45,6 +45,67 @@ void pint(stack_t **stack, unsigned int line_number)
     printf("%d\n", (*stack)->n);
 }
 
+void pop(stack_t **stack, unsigned int line_number)
+{
+    stack_t *temp;
+
+    if (*stack == NULL)
+    {
+        fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+
+    temp = *stack;
+    *stack = (*stack)->next;
+
+    if(*stack != NULL)
+    {
+        (*stack)->prev = NULL;
+    }
+    free(temp);
+}
+
+void swap(stack_t **stack, unsigned int line_number)
+{
+    int temp;
+
+    if (*stack == NULL || (*stack)->next == NULL)
+    {
+        fprintf(stderr, "L%u: can't swap, stack too short\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+
+    temp = (*stack)->n;
+    (*stack)->n = (*stack)->next->n;
+    (*stack)->next->n = temp;
+}
+
+void add(stack_t **stack, unsigned int line_number)
+{
+    stack_t *temp;
+
+    if (*stack == NULL || (*stack)->next == NULL)
+    {
+        fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+
+    temp = *stack; /* Temp to store top element */
+
+    (*stack)->next->n += (*stack)->n; /* add the top element to the second top element */
+
+    *stack = (*stack)->next; /* Move the stack pointer to the next element */
+
+    free(temp); /* Free the memory of the top element */
+    (*stack)->prev = NULL; /* Set the prev pointer of the new top element to NULL */
+}
+
+void nop(stack_t **stack, unsigned int line_number)
+{
+    (void)stack;
+    (void)line_number;
+}
+
 void execute_instruction(char *opcode, stack_t **stack, unsigned int line_number, char *arg)
 {
     instruction_t instructions[] = 
@@ -52,6 +113,10 @@ void execute_instruction(char *opcode, stack_t **stack, unsigned int line_number
         {"push", push},
         {"pall", pall},
         {"pint", pint},
+        {"pop", pop},
+        {"swap", swap},
+        {"add", add},
+        {"nop", nop},
         {NULL, NULL}
     };
 
